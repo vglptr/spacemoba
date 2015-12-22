@@ -4,6 +4,7 @@ public abstract class GameObject {
 
 	protected Point position;
 	protected float rotation;
+	protected int id;
 
 	public Point getPosition() {
 		return position;
@@ -11,6 +12,10 @@ public abstract class GameObject {
 
 	public void setPosition(Point position) {
 		this.position = position;
+	}
+	
+	public int getId() {
+		return id;
 	}
 
 	/**
