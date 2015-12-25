@@ -1,6 +1,9 @@
 package shared;
 
-public abstract class GameObject {
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public abstract class GameObject implements Serializable {
 
 	protected Point position;
 	protected float rotation;

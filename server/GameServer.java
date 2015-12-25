@@ -11,7 +11,7 @@ import shared.Ship;
 import static shared.GameObjectConstants.*;
 
 public class GameServer {
-	public volatile HashMap<String, GameObject> gameObjects = new HashMap<>();
+	public HashMap<String, GameObject> gameObjects = new HashMap<>();
 	private int nextId;
 	private ServerSocket serverSocket = null;
 
@@ -24,13 +24,14 @@ public class GameServer {
 		}
 		acceptConnections();
 	}
-	
+
 	public int getNextId() {
 		return nextId++;
 	}
-	
+
 	private void initGameObjects() {
 		Ship ship = new Ship(new Point(5, 5));
+		ship.setDestination(new Point(9, 9));
 		gameObjects.put(SHIP01, ship);
 		System.out.println("initial ship: " + gameObjects.get(SHIP01).getPosition());
 	}

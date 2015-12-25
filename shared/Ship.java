@@ -1,9 +1,7 @@
 package shared;
 
-import java.io.Serializable;
-
 @SuppressWarnings("serial")
-public class Ship extends GameObject implements Serializable {
+public class Ship extends GameObject {
 	private Point destination;
 
 	public Ship() {

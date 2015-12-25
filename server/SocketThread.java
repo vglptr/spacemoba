@@ -31,8 +31,8 @@ public class SocketThread extends Thread {
 	}
 
 	public void run() {
-		while(true) {
-			send(gameObjects);
+		while (true) {
+			send();
 			receive();
 			try {
 				Thread.sleep(5000);
@@ -41,32 +41,27 @@ public class SocketThread extends Thread {
 			}
 		}
 	}
-	
+
 	private void receive() {
 		try {
-				Object o = in.readUnshared();
-				if(o instanceof Command) {
-					System.out.println("received command: "  + o.getClass());
-					Command c = (Command)o;
-					System.out.println("before command: " + gameObjects.get(SHIP01).getPosition());
-					c.execute(gameObjects);
-					System.out.println("after command: " + gameObjects.get(SHIP01).getPosition());
-				}
+			Object o = in.readUnshared();
+			if (o instanceof Command) {
+				System.out.println("received command: " + o.getClass());
+				Command c = (Command) o;
+				System.out.println("before command: " + gameObjects.get(SHIP01).getPosition());
+				c.execute(gameObjects);
+				System.out.println("after command: " + gameObjects.get(SHIP01).getPosition());
+			}
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	private void send(HashMap<String, GameObject> gameObjects) {
+
+	private void send() {
 		try {
 			out.writeUnshared(gameObjects);
-			// memory leak prevention of ObjectOutputStream,
-			// it also resets ObjectInputStream on the other side
-			if(sendCounter % 100000 == 0) {
-				out.reset();
-				sendCounter = 0;
-			}
-			sendCounter++;
+			System.out.println("sending gameobject with: " + gameObjects.get(SHIP01).getPosition());
+			out.reset();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

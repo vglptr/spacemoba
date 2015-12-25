@@ -32,51 +32,45 @@ public class GameClient {
 	}
 
 	private void mainLoop() {
-		while(true) {
+		while (true) {
 			receive();
-			
+
 			Move move = new Move(SHIP01, new Point(10, 10));
-			
+
 			send(move);
-			try {
-				Thread.sleep(5000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			// try {
+			// Thread.sleep(5000);
+			// } catch (InterruptedException e) {
+			// e.printStackTrace();
+			// }
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	private void receive() {
 		Object o = null;
-			try {
-				o = in.readUnshared();
-			} catch (ClassNotFoundException | IOException e1) {
-				e1.printStackTrace();
-			}
-			if (o instanceof HashMap<?, ?>) {
-				gameObjects = (HashMap<String, GameObject>)o;
+		try {
+			o = in.readUnshared();
+		} catch (ClassNotFoundException | IOException e1) {
+			e1.printStackTrace();
 		}
-			Ship s = (Ship)gameObjects.get(SHIP01);
-			System.out.println("client gets: " + s.getPosition());
+		if (o instanceof HashMap<?, ?>) {
+			gameObjects = (HashMap<String, GameObject>) o;
+			System.out.println("gameObjects received");
+		}
+
+		System.out.println("client gets: " + gameObjects.get(SHIP01).getPosition());
+		System.out.println("client gets dest: " + ((Ship) (gameObjects.get(SHIP01))).getDestination());
 	}
-	
+
 	private void send(Command command) {
-		int sendCounter = 0;
 		System.out.println("sending command");
-//		while(true) {
-			try {
-				out.writeUnshared(command);
-				// memory leak prevention of ObjectOutputStream,
-				// it also resets ObjectInputStream on the other side
-				if(sendCounter % 100000 == 0) {
-					out.reset();
-					sendCounter = 0;
-				}
-				sendCounter++;
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-//		}
+		try {
+			out.writeUnshared(command);
+			out.reset();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		// }
 	}
 }
