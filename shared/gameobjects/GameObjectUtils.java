@@ -1,4 +1,4 @@
-package shared;
+package shared.gameobjects;
 
 import java.util.HashMap;
 

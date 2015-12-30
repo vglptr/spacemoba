@@ -1,14 +1,15 @@
 package server;
 
+import static shared.gameobjects.GameObjectConstants.*;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 
-import shared.GameObject;
 import shared.Point;
-import shared.Ship;
-import static shared.GameObjectConstants.*;
+import shared.gameobjects.GameObject;
+import shared.gameobjects.Ship;
 
 public class GameServer {
 	public HashMap<String, GameObject> gameObjects = new HashMap<>();

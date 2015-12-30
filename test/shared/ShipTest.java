@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import shared.Point;
-import shared.Ship;
+import shared.gameobjects.Ship;
 
 public class ShipTest {
 

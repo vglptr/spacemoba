@@ -1,18 +1,18 @@
 package client;
 
+import static shared.gameobjects.GameObjectConstants.*;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.HashMap;
 
-import shared.GameObject;
 import shared.Point;
-import shared.Ship;
 import shared.commands.Command;
 import shared.commands.Move;
-
-import static shared.GameObjectConstants.*;
+import shared.gameobjects.GameObject;
+import shared.gameobjects.Ship;
 
 public class GameClient {
 	private HashMap<String, GameObject> gameObjects = new HashMap<>();
@@ -26,7 +26,10 @@ public class GameClient {
 			out = new ObjectOutputStream(socket.getOutputStream());
 			in = new ObjectInputStream(socket.getInputStream());
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("Connection failed");
+			System.out.println(e.getMessage());
+			System.out.println("Exiting");
+			System.exit(1);
 		}
 		mainLoop();
 	}

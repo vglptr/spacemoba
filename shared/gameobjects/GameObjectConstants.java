@@ -1,4 +1,4 @@
-package shared;
+package shared.gameobjects;
 
 public class GameObjectConstants {
 	public static final String SHIP01 = "ship01";

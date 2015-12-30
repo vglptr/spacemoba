@@ -1,6 +1,8 @@
-package shared;
+package shared.gameobjects;
 
 import java.io.Serializable;
+
+import shared.Point;
 
 @SuppressWarnings("serial")
 public abstract class GameObject implements Serializable {

@@ -1,4 +1,6 @@
-package shared;
+package shared.gameobjects;
+
+import shared.Point;
 
 @SuppressWarnings("serial")
 public class Ship extends GameObject {

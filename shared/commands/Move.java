@@ -3,8 +3,8 @@ package shared.commands;
 import java.io.Serializable;
 import java.util.HashMap;
 
-import shared.GameObject;
 import shared.Point;
+import shared.gameobjects.GameObject;
 
 @SuppressWarnings("serial")
 public class Move implements Command, Serializable {

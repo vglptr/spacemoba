@@ -1,23 +1,19 @@
 package server;
 
+import static shared.gameobjects.GameObjectConstants.SHIP01;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.HashMap;
-import java.util.Random;
 
-import shared.GameObject;
-import shared.Point;
-import shared.commands.*;
-
-import static shared.GameObjectConstants.*;
+import shared.commands.Command;
+import shared.gameobjects.GameObject;
 
 public class SocketThread extends Thread {
 	private ObjectOutputStream out = null;
 	private ObjectInputStream in = null;
-	private Random r = new Random();
-	private int sendCounter = 0;
 	private HashMap<String, GameObject> gameObjects;
 
 	public SocketThread(Socket socket, HashMap<String, GameObject> gameObjects) {

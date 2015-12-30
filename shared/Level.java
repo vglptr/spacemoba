@@ -2,6 +2,8 @@ package shared;
 
 import java.util.ArrayList;
 
+import shared.gameobjects.GameObject;
+
 public class Level {
 	private static final Level INSTANCE = new Level();
 	private ArrayList<GameObject> gameObjects;
