@@ -2,7 +2,7 @@ package test.client;
 
 import org.junit.Test;
 
-import client.GameClient;
+import client.main.GameClient;
 import server.GameServer;
 
 public class GameClientTest {

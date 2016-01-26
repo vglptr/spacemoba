@@ -1,6 +1,7 @@
 package shared;
 
-import client.GameClient;
+import client.gui.MainWindow;
+import client.main.GameClient;
 import server.GameServer;
 
 public class Start {
