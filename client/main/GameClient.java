@@ -17,13 +17,13 @@ import client.network.Receiver;
 import client.network.Sender;
 
 public class GameClient {
-	private static final int NETWORK_FREQUENCY = 50;
-	private HashMap<String, GameObject> gameObjects = new HashMap<>();
+	private HashMap<String, GameObject> gameObjects;
 	private ObjectOutputStream out = null;
 	private ObjectInputStream in = null;
 	private Socket socket;
 	private Sender sender;
 	private Receiver receiver;
+	private MainWindow mainWindow;
 
 	public GameClient(String serverIp) {
 		try {
@@ -47,21 +47,25 @@ public class GameClient {
 	}
 
 	private void startGui() {
-		MainWindow mainWindow = new MainWindow();
+		mainWindow = new MainWindow(gameObjects);
 		mainWindow.start();
 	}
 
 	private void mainLoop() {
-		System.out.println("GAMECLIENT:" + Thread.currentThread());
 		while (true) {
 			gameObjects = receiver.receive();
-			Move move = new Move(SHIP01, new Point(10, 10));
+			System.out.println("size in client mainloop: " + gameObjects.size());
+			
+			mainWindow.setGameObjects(gameObjects);
+			
+			//execute all logic here
+			Move move = new Move(SHIP01, new Point(0.1f, 0.1f));
+			
 			sender.send(move);
-			try {
-				Thread.sleep(1 / NETWORK_FREQUENCY);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
 		}
+	}
+	
+	public HashMap<String, GameObject> getGameObjects() {
+		return gameObjects;
 	}
 }

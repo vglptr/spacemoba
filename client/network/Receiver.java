@@ -22,6 +22,7 @@ public class Receiver {
 			e1.printStackTrace();
 		}
 		if (o instanceof HashMap<?, ?>) {
+			System.out.println("gameobjects received aaa");
 			return (HashMap<String, GameObject>) o;
 		} else {
 			return null;

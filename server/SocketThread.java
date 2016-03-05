@@ -14,13 +14,11 @@ import shared.gameobjects.GameObject;
 public class SocketThread extends Thread {
 	private ObjectOutputStream out = null;
 	private ObjectInputStream in = null;
-	private HashMap<String, GameObject> gameObjects;
 	boolean clientConnected = true;
-	Receiver receiver;
-	Sender sender;
+	private Receiver receiver;
+	private Sender sender;
 
 	public SocketThread(Socket socket, HashMap<String, GameObject> gameObjects) {
-		this.gameObjects = gameObjects;
 		try {
 			out = new ObjectOutputStream(socket.getOutputStream());
 			in = new ObjectInputStream(socket.getInputStream());
@@ -36,12 +34,13 @@ public class SocketThread extends Thread {
 			try {
 				sender.send();
 				receiver.receive();
+				//execute game logic on gameObjects here
 			} catch (IOException e1) {
 				System.out.println("client disconnected");
 				clientConnected = false;
 			}
 			try {
-				Thread.sleep(5000);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
