@@ -34,7 +34,7 @@ public class SocketThread extends Thread {
 			try {
 				sender.send();
 				receiver.receive();
-				//execute game logic on gameObjects here
+				//execute game logic on gameObjects in receiver.receive()
 			} catch (IOException e1) {
 				System.out.println("client disconnected");
 				clientConnected = false;
