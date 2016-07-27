@@ -4,16 +4,16 @@ import static shared.gameobjects.GameObjectConstants.SHIP01;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.util.HashMap;
+import java.util.Map;
 
 import shared.gameobjects.GameObject;
 
 public class Sender {
 	private ObjectOutputStream out;
-	private HashMap<String, GameObject> gameObjects;
+	private Map<String, GameObject> gameObjects;
 
 	public Sender(ObjectOutputStream out,
-			HashMap<String, GameObject> gameObjects) {
+			Map<String, GameObject> gameObjects) {
 		this.out = out;
 		this.gameObjects = gameObjects;
 	}

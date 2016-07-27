@@ -1,9 +1,9 @@
 package shared.commands;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import shared.gameobjects.GameObject;
 
 public interface Command {
-	public void execute(HashMap<String, GameObject> gameObjects);
+	public void execute(Map<String, GameObject> gameObjects);
 }

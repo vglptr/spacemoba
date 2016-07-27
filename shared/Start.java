@@ -1,6 +1,5 @@
 package shared;
 
-import client.gui.MainWindow;
 import client.main.GameClient;
 import server.GameServer;
 

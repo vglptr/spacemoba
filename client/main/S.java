@@ -1,28 +1,29 @@
 package client.main;
 
-import com.jme3.asset.AssetManager;
-import com.jme3.input.InputManager;
+import java.util.Map;
+
+import shared.gameobjects.GameObject;
 
 public class S {
-    private static InputManager inputManager;
-    private static AssetManager assetManager;
+	private static Map<String, GameObject> gameObjects;
+	private static Map<String, String> gameProperties;
 
-    private S() {
-    }
+	private S() {
+	}
 
-    public static InputManager getInputManager() {
-        return inputManager;
-    }
+	public static Map<String, GameObject> getGameObjects() {
+		return gameObjects;
+	}
 
-    public static void setInputManager(InputManager inputManager) {
-        S.inputManager = inputManager;
-    }
+	public static void setGameObjects(Map<String, GameObject> gameObjects) {
+		S.gameObjects = gameObjects;
+	}
 
-    public static AssetManager getAssetManager() {
-        return assetManager;
-    }
+	public static Map<String, String> getGameProperties() {
+		return gameProperties;
+	}
 
-    public static void setAssetManager(AssetManager assetManager) {
-        S.assetManager = assetManager;
-    }
+	public static void setGameProperties(Map<String, String> gameProperties) {
+		S.gameProperties = gameProperties;
+	}
 }

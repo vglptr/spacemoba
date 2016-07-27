@@ -1,7 +1,7 @@
 package shared.commands;
 
 import java.io.Serializable;
-import java.util.HashMap;
+import java.util.Map;
 
 import shared.Point;
 import shared.gameobjects.GameObject;
@@ -17,7 +17,7 @@ public class Move implements Command, Serializable {
 	}
 	
 	@Override
-	public void execute(HashMap<String, GameObject> gameObjects) {
+	public void execute(Map<String, GameObject> gameObjects) {
 		gameObjects.get(target).move(delta);
 	}
 }
