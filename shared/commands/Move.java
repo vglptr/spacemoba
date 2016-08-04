@@ -8,16 +8,16 @@ import shared.gameobjects.GameObject;
 
 @SuppressWarnings("serial")
 public class Move implements Command, Serializable {
-	private String target;
-	private Point delta;
+    private String target;
+    private Point delta;
 
-	public Move(String target, Point delta) {
-		this.target = target;
-		this.delta = delta;
-	}
-	
-	@Override
-	public void execute(Map<String, GameObject> gameObjects) {
-		gameObjects.get(target).move(delta);
-	}
+    public Move(String target, Point delta) {
+        this.target = target;
+        this.delta = delta;
+    }
+
+    @Override
+    public void execute(Map<String, GameObject> gameObjects) {
+        gameObjects.get(target).move(delta);
+    }
 }

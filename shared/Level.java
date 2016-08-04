@@ -1,31 +1,31 @@
 package shared;
 
 public class Level {
-	private static final Level INSTANCE = new Level();
-	private int sizeX = 1000;
-	private int sizeY = 1000;
+    private static final Level INSTANCE = new Level();
+    private int sizeX = 1000;
+    private int sizeY = 1000;
 
-	private Level() {
-	}
-	
-	public static Level getInstance() {
-		return INSTANCE;
-	}
-	
-	public int getSizeX() {
-		return sizeX;
-	}
+    private Level() {
+    }
 
-	public void setSizeX(int sizeX) {
-		this.sizeX = sizeX;
-	}
+    public static Level getInstance() {
+        return INSTANCE;
+    }
 
-	public int getSizeY() {
-		return sizeY;
-	}
+    public int getSizeX() {
+        return sizeX;
+    }
 
-	public void setSizeY(int sizeY) {
-		this.sizeY = sizeY;
-	}
+    public void setSizeX(int sizeX) {
+        this.sizeX = sizeX;
+    }
+
+    public int getSizeY() {
+        return sizeY;
+    }
+
+    public void setSizeY(int sizeY) {
+        this.sizeY = sizeY;
+    }
 
 }

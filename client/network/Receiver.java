@@ -3,30 +3,27 @@ package client.network;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.HashMap;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Logger;
 
 import shared.gameobjects.GameObject;
 
 public class Receiver {
-	private ObjectInputStream in;
+    private final Logger LOGGER = Logger.getLogger(Receiver.class.getName());
+    private ObjectInputStream in;
 
-	public Receiver(ObjectInputStream in) {
-		this.in = in;
-	}
+    public Receiver(ObjectInputStream in) {
+        this.in = in;
+    }
 
-	@SuppressWarnings("unchecked")
-	public HashMap<String, GameObject> receive() {
-		Object o = null;
-		try {
-			o = in.readUnshared();
-		} catch (ClassNotFoundException | IOException e1) {
-			e1.printStackTrace();
-		}
-		if (o instanceof HashMap<?, ?>) {
-			System.out.println("gameobjects received aaa");
-			return (HashMap<String, GameObject>) o;
-		} else {
-			return null;
-		}
-	}
+    @SuppressWarnings("unchecked")
+    public HashMap<String, GameObject> receive() {
+        try {
+            HashMap<String, GameObject> gameObjects = (HashMap<String, GameObject>) in.readUnshared();
+            LOGGER.info("gameobjects received");
+            return gameObjects;
+        } catch (ClassNotFoundException | IOException e1) {
+            e1.printStackTrace();
+        }
+        return null;
+    }
 }

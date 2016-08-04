@@ -5,5 +5,5 @@ import java.util.Map;
 import shared.gameobjects.GameObject;
 
 public interface Command {
-	public void execute(Map<String, GameObject> gameObjects);
+    public void execute(Map<String, GameObject> gameObjects);
 }
