@@ -24,6 +24,7 @@ public class GameServer {
     private ServerSocket serverSocket = null;
 
     public GameServer() {
+        LOGGER.setLevel(Level.OFF);
         try {
             fileHandler = new FileHandler("server.log");
         } catch (SecurityException | IOException e1) {

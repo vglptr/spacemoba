@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.logging.Logger;
 
-import server.GameServer;
 import shared.commands.Command;
 
 public class Sender {

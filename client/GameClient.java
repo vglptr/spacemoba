@@ -11,6 +11,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+import com.jme3.system.AppSettings;
+
 import client.gui.MainWindow;
 import client.network.Receiver;
 import client.network.Sender;
@@ -27,6 +29,7 @@ public class GameClient {
     private Receiver receiver;
 
     public GameClient(String serverIp) {
+        LOGGER.setLevel(Level.OFF);
         try {
             fileHandler = new FileHandler("client.log");
         } catch (SecurityException | IOException e1) {
@@ -34,7 +37,6 @@ public class GameClient {
         }
         fileHandler.setFormatter(new SimpleFormatter());
         LOGGER.addHandler(fileHandler);
-        LOGGER.setLevel(Level.INFO);
         LOGGER.info(String.format("connecting to %s", serverIp));
         try {
             socket = new Socket(serverIp, 55555);
@@ -59,15 +61,24 @@ public class GameClient {
 
     private void startGui() {
         MainWindow mainWindow = new MainWindow();
+        AppSettings settings = new AppSettings(true);
+        settings.setVSync(true);
+        //settings.setFrameRate(120); //game runs at 8000 fps currently
+        mainWindow.setParent(this);
+        mainWindow.setSettings(settings);
         mainWindow.start();
         LOGGER.info("gui started");
+    }
+    
+    public void close() {
+        System.exit(0);
     }
 
     private void mainLoop() {
         while (true) {
-            S.setGameObjects(receiver.receive());
+            S.gameObjects = receiver.receive();
             // execute all logic here
-            Move move = new Move(SHIP01, new Point(1.0f, 1.0f));
+            Move move = new Move(SHIP01, new Point(0.1f, 0.1f));
             sender.send(move);
         }
     }

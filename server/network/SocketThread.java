@@ -38,11 +38,7 @@ public class SocketThread extends Thread {
                 LOGGER.info("client disconnected");
                 clientConnected = false;
             }
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            
         }
     }
 }
