@@ -16,6 +16,7 @@ public class S {
     public static Camera cam;
     public static AssetManager assetManager;
     public static AppSettings appSettings;
+    public static int clientId;
     
     private S() {
     }

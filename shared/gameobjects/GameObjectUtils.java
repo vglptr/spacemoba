@@ -1,15 +1,21 @@
 package shared.gameobjects;
 
 import java.util.HashMap;
-
-import client.S;
+import java.util.Map;
 
 public class GameObjectUtils {
-    public static HashMap<String, GameObject> getGameObjectsContains(String filter) {
-        HashMap<String, GameObject> filteredGameObjects = new HashMap<>();
-        for (String gameObjectKey : S.gameObjects.keySet()) {
-            if (gameObjectKey.contains(filter)) {
-                filteredGameObjects.put(gameObjectKey, S.gameObjects.get(gameObjectKey));
+    /**
+     * Returns all the GameObjects containing filterText except the one with id exceptId, like ship0
+     * @param filterText text describing the "type" of the GameObject, like: ship
+     * @param exceptId the GameObject's id which we are not interested in 
+     * @param map GameObjects container
+     * @return filtered GameObjects
+     */
+    public static Map<String, GameObject> filter(String filterText, int exceptId, Map<String, GameObject> map) {
+        Map<String, GameObject> filteredGameObjects = new HashMap<>();
+        for (String gameObjectKey : map.keySet()) {
+            if ((gameObjectKey.contains(filterText)) && (!gameObjectKey.contains(filterText + exceptId))) {
+                filteredGameObjects.put(gameObjectKey, map.get(gameObjectKey));
             }
         }
         return filteredGameObjects;

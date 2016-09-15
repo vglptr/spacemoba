@@ -1,6 +1,9 @@
 package client.gui;
 
-import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.light.DirectionalLight;
@@ -8,20 +11,22 @@ import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
-import com.jme3.scene.shape.Box;
 
 import client.GameClient;
 import client.S;
 import shared.gameobjects.GameObject;
+import shared.gameobjects.GameObjectUtils;
 import shared.gameobjects.Ship;
 
 public class MainWindow extends SimpleApplication {
-    private GameClient parent;
-    private final Logger LOGGER = Logger.getLogger(MainWindow.class.getName());
-    private ShipModel shipModel;
+    private GameClient client;
+    private ShipModel shipModel0;
+    private ShipModel shipModel1;
+    private Map<String, Geometry> geometries;
 
     @Override
     public void simpleInitApp() {
+        geometries = new HashMap<>();
         setDisplayStatView(false);
         setPauseOnLostFocus(false);
         S.inputManager = inputManager;
@@ -35,45 +40,48 @@ public class MainWindow extends SimpleApplication {
         // 100);
         mouseInput.setCursorVisible(true);
         flyCam.setEnabled(false);
-        
+
         Floor floor = new Floor(S.assetManager);
         rootNode.attachChild(floor.getGeometry());
-        
+
         Material mat = new Material(S.assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", ColorRGBA.Red);
-        
-        shipModel = new ShipModel();
-        rootNode.attachChild(shipModel.getGeometry());
-        ShipController shipController = new ShipController(floor.getGeometry(), rootNode, S.appSettings);
-        shipModel.getGeometry().addControl(shipController);
-        
+
+        shipModel0 = new ShipModel();
+        ShipController shipController = new ShipController(floor.getGeometry(), rootNode, S.appSettings, client);
+        rootNode.attachChild(shipModel0.getGeometry());
+        shipModel0.getGeometry().addControl(shipController);
+        geometries.put("ship0", shipModel0.getGeometry());
+
+        shipModel1 = new ShipModel();
+        rootNode.attachChild(shipModel1.getGeometry());
+        geometries.put("ship1", shipModel1.getGeometry());
+
         DirectionalLight sun = new DirectionalLight();
-        sun.setDirection(new Vector3f(0.1f,0.1f,-1.0f).normalizeLocal());
+        sun.setDirection(new Vector3f(0.1f, 0.1f, -1.0f).normalizeLocal());
         sun.setColor(ColorRGBA.White);
         rootNode.addLight(sun);
     }
-    
+
     @Override
     public void destroy() {
-    super.destroy();
-        parent.close();
-    }
-    
-    public void setParent(GameClient parent) {
-        this.parent = parent;
+        super.destroy();
+        client.close();
     }
 
+    public void setClient(GameClient client) {
+        this.client = client;
+    }
 
+    // control every object from here except the current client
+    //TODO: something is wrong with second ship's control
     @Override
     public void simpleUpdate(float tpf) {
-//        if (S.gameObjects != null) {
-//            for (GameObject gameObject : S.gameObjects.values()) {
-//                if (gameObject instanceof Ship) {
-//                    //Ship ship = (Ship) gameObject;
-//                    //shipModel.getGeometry().setLocalTranslation(ship.getPosition().x, ship.getPosition().y, 0f);
-//                }
-//            }
-//        }
+        if (S.gameObjects != null) {
+            for(Map.Entry<String, GameObject> shipEntry : GameObjectUtils.filter("ship", S.clientId, S.gameObjects).entrySet()) {
+                geometries.get(shipEntry.getKey()).setLocalTranslation(                    
+                        shipEntry.getValue().getPosition().x, shipEntry.getValue().getPosition().y, 0f);
+            }
+        }
     }
-
 }

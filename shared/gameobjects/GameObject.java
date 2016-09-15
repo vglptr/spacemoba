@@ -6,7 +6,7 @@ import shared.Point;
 
 @SuppressWarnings("serial")
 public abstract class GameObject implements Serializable {
-
+    protected Point destination;
     protected Point position;
     protected float rotation;
     protected int id;
@@ -53,4 +53,13 @@ public abstract class GameObject implements Serializable {
     public void move(Point point) {
         position.add(point);
     }
+    
+    public Point getDestination() {
+        return destination;
+    }
+
+    public void setDestination(Point destination) {
+        this.destination = destination;
+    }
+    
 }

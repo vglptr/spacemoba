@@ -15,7 +15,7 @@ public class Sender {
     }
 
     public void send(Command command) {
-        LOGGER.info("sending command: " + command.getClass());
+        LOGGER.info("sending command: " + command);
         try {
             out.writeUnshared(command);
             out.reset();

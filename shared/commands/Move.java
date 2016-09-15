@@ -1,13 +1,11 @@
 package shared.commands;
 
 import java.io.Serializable;
-import java.util.Map;
 
 import shared.Point;
-import shared.gameobjects.GameObject;
 
 @SuppressWarnings("serial")
-public class Move implements Command, Serializable {
+public class Move extends Command implements Serializable {
     private String target;
     private Point delta;
 
@@ -16,8 +14,15 @@ public class Move implements Command, Serializable {
         this.delta = delta;
     }
 
-    @Override
-    public void execute(Map<String, GameObject> gameObjects) {
-        gameObjects.get(target).move(delta);
+    public String getTarget() {
+        return target;
     }
+    
+    public Point getDelta() {
+        return delta;
+    }
+
+
+
+    
 }

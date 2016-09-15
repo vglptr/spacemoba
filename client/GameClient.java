@@ -1,7 +1,5 @@
 package client;
 
-import static shared.gameobjects.GameObjectConstants.SHIP01;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -16,8 +14,8 @@ import com.jme3.system.AppSettings;
 import client.gui.MainWindow;
 import client.network.Receiver;
 import client.network.Sender;
-import shared.Point;
-import shared.commands.Move;
+import shared.commands.Command;
+import shared.commands.Rpc;
 
 public class GameClient {
     private final Logger LOGGER = Logger.getLogger(GameClient.class.getPackage().getName());
@@ -50,7 +48,6 @@ public class GameClient {
         }
         startNetwork();
         startGui();
-        mainLoop();
     }
 
     private void startNetwork() {
@@ -63,23 +60,22 @@ public class GameClient {
         MainWindow mainWindow = new MainWindow();
         AppSettings settings = new AppSettings(true);
         settings.setVSync(true);
-        //settings.setFrameRate(120); //game runs at 8000 fps currently
-        mainWindow.setParent(this);
+        // settings.setFrameRate(120); //game runs at 8000 fps currently
+        mainWindow.setClient(this);
         mainWindow.setSettings(settings);
         mainWindow.start();
         LOGGER.info("gui started");
     }
-    
-    public void close() {
-        System.exit(0);
+
+    public void send(Command command) {
+        sender.send(command);
     }
 
-    private void mainLoop() {
-        while (true) {
-            S.gameObjects = receiver.receive();
-            // execute all logic here
-            Move move = new Move(SHIP01, new Point(0.1f, 0.1f));
-            sender.send(move);
-        }
+    public void receive() {
+        S.gameObjects = receiver.receive();
+    }
+
+    public void close() {
+        System.exit(0);
     }
 }

@@ -4,18 +4,23 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
-
+import shared.Point;
+import shared.commands.Rpc;
 import shared.gameobjects.GameObject;
+import shared.gameobjects.Ship;
 
 public class SocketThread extends Thread {
     private ObjectOutputStream out = null;
     private ObjectInputStream in = null;
-    private boolean clientConnected = true;
+    public boolean clientConnected = true;
     private Receiver receiver;
     private Sender sender;
-    private final Logger LOGGER = Logger.getLogger(SocketThread.class.getName());
+    private Map<String, GameObject> gameObjects; // global objects
+    private Map<String, GameObject> clientObjects; // per client objects
+    private static int clientId = 0;
+    private int currentClientId;
 
     public SocketThread(Socket socket, Map<String, GameObject> gameObjects) {
         try {
@@ -24,21 +29,41 @@ public class SocketThread extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        receiver = new Receiver(in, gameObjects);
-        sender = new Sender(out, gameObjects);
+        this.gameObjects = gameObjects;
+        receiver = new Receiver(in, gameObjects, this);
+        sender = new Sender(out, this);
     }
 
     public void run() {
+        sendClientId();
+        initGameObjects();
         while (clientConnected) {
-            try {
-                sender.send();
-                receiver.receive();
-                // execute game logic on gameObjects in receiver.receive()
-            } catch (IOException e1) {
-                LOGGER.info("client disconnected");
-                clientConnected = false;
-            }
-            
+            clientObjects = filterClientObjects(gameObjects);
+            sender.send(clientObjects);
+            receiver.receive();
+            // execute game logic here
         }
+    }
+
+    private void sendClientId() {
+        Rpc idRequest = new Rpc();
+        idRequest.command = "idRequest";
+        idRequest.response = clientId;
+        currentClientId = clientId;
+        clientId++;
+        sender.send(idRequest);
+    }
+
+    private void initGameObjects() {
+        Ship ship = new Ship(new Point(5, 5));
+        gameObjects.put("ship" + currentClientId, ship);
+    }
+
+    private Map<String, GameObject> filterClientObjects(Map<String, GameObject> gameObjects) {
+        // TODO:filter gameobjects here, make all client specific modification
+        // to clientobjects here
+
+        Map<String, GameObject> clientObjects = new HashMap<String, GameObject>(gameObjects);
+        return clientObjects;
     }
 }
