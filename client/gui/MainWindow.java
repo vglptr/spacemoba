@@ -48,14 +48,15 @@ public class MainWindow extends SimpleApplication {
         mat.setColor("Color", ColorRGBA.Red);
 
         shipModel0 = new ShipModel();
-        ShipController shipController = new ShipController(floor.getGeometry(), rootNode, S.appSettings, client);
         rootNode.attachChild(shipModel0.getGeometry());
-        shipModel0.getGeometry().addControl(shipController);
         geometries.put("ship0", shipModel0.getGeometry());
 
         shipModel1 = new ShipModel();
         rootNode.attachChild(shipModel1.getGeometry());
         geometries.put("ship1", shipModel1.getGeometry());
+
+        ShipController shipController = new ShipController(floor.getGeometry(), rootNode, S.appSettings, client);
+        geometries.get("ship" + S.clientId).addControl(shipController);
 
         DirectionalLight sun = new DirectionalLight();
         sun.setDirection(new Vector3f(0.1f, 0.1f, -1.0f).normalizeLocal());

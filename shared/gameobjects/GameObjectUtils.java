@@ -12,9 +12,19 @@ public class GameObjectUtils {
      * @return filtered GameObjects
      */
     public static Map<String, GameObject> filter(String filterText, int exceptId, Map<String, GameObject> map) {
-        Map<String, GameObject> filteredGameObjects = new HashMap<>();
+        Map<String, GameObject> filteredGameObjects = new HashMap<String, GameObject>();
         for (String gameObjectKey : map.keySet()) {
             if ((gameObjectKey.contains(filterText)) && (!gameObjectKey.contains(filterText + exceptId))) {
+                filteredGameObjects.put(gameObjectKey, map.get(gameObjectKey));
+            }
+        }
+        return filteredGameObjects;
+    }
+    
+    public static Map<String, GameObject> select(String filterText, int clientId, Map<String, GameObject> map) {
+        Map<String, GameObject> filteredGameObjects = new HashMap<String, GameObject>();
+        for (String gameObjectKey : map.keySet()) {
+            if (gameObjectKey.contains(filterText + clientId)) {
                 filteredGameObjects.put(gameObjectKey, map.get(gameObjectKey));
             }
         }

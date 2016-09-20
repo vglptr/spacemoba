@@ -112,13 +112,13 @@ public class ShipController extends AbstractControl implements ActionListener, A
     protected void controlUpdate(float tpf) {
         mouseScroll(tpf);
         moveTowardsDestination(tpf);
-        client.receive();
         SetPosition setPosition = new SetPosition(
                 "ship" + S.clientId, 
                 new Point(
                         getSpatial().getLocalTranslation().x, 
                         getSpatial().getLocalTranslation().y));
         client.send(setPosition);
+        client.receive();
     }
 
     private void moveTowardsDestination(float tpf) {

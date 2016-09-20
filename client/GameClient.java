@@ -53,6 +53,7 @@ public class GameClient {
     private void startNetwork() {
         sender = new Sender(out);
         receiver = new Receiver(in);
+        receiver.receive(); // to get clientid before gui starts
         LOGGER.info("networking started");
     }
 

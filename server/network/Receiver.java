@@ -34,11 +34,10 @@ public class Receiver {
             }
         if (o instanceof Command) {
             if (o instanceof SetPosition) {
-                LOGGER.info("move command");
+                LOGGER.info("SetPosition command");
                 SetPosition setPosition = (SetPosition) o;
                 gameObjects.get(setPosition.getTarget()).setPosition(setPosition.getPosition());
             }
-            
         }
     }
 }

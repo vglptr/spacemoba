@@ -19,7 +19,7 @@ public class SocketThread extends Thread {
     private Sender sender;
     private Map<String, GameObject> gameObjects; // global objects
     private Map<String, GameObject> clientObjects; // per client objects
-    private static int clientId = 0;
+    private static int nextClientId = 0;
     private int currentClientId;
 
     public SocketThread(Socket socket, Map<String, GameObject> gameObjects) {
@@ -46,11 +46,11 @@ public class SocketThread extends Thread {
     }
 
     private void sendClientId() {
+        currentClientId = nextClientId;
+        nextClientId++;
         Rpc idRequest = new Rpc();
         idRequest.command = "idRequest";
-        idRequest.response = clientId;
-        currentClientId = clientId;
-        clientId++;
+        idRequest.response = currentClientId;
         sender.send(idRequest);
     }
 
@@ -61,8 +61,8 @@ public class SocketThread extends Thread {
 
     private Map<String, GameObject> filterClientObjects(Map<String, GameObject> gameObjects) {
         // TODO:filter gameobjects here, make all client specific modification
-        // to clientobjects here
-
+        // to clientobjects here, like fog of war
+        //Map<String, GameObject> clientObjects = GameObjectUtils.select("ship", currentClientId, gameObjects);
         Map<String, GameObject> clientObjects = new HashMap<String, GameObject>(gameObjects);
         return clientObjects;
     }
