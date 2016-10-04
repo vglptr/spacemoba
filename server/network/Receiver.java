@@ -2,16 +2,16 @@ package server.network;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
 import shared.commands.Command;
-import shared.commands.Move;
 import shared.commands.SetPosition;
+import shared.commands.SetRotation;
 import shared.gameobjects.GameObject;
 
 public class Receiver {
-    private final Logger LOGGER = Logger.getLogger(Receiver.class.getName());
     private ObjectInputStream in;
     private Map<String, GameObject> gameObjects;
     private SocketThread socketThread;
@@ -22,22 +22,30 @@ public class Receiver {
         this.socketThread = socketThread;
     }
 
+    @SuppressWarnings("unchecked")
     public void receive() {
-        Object o = null;
-            try {
-                o = in.readUnshared();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                socketThread.clientConnected = false;
-                LOGGER.info("client disconnected");
-            }
-        if (o instanceof Command) {
-            if (o instanceof SetPosition) {
-                LOGGER.info("SetPosition command");
-                SetPosition setPosition = (SetPosition) o;
-                gameObjects.get(setPosition.getTarget()).setPosition(setPosition.getPosition());
+        Object object = null;
+        try {
+            object = in.readUnshared();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            socketThread.clientConnected = false;
+        }
+        if (object instanceof List<?>) {
+            for (Command command : (List<Command>) object) {
+                if (command instanceof SetPosition) {
+                    SetPosition setPosition = (SetPosition) command;
+                    gameObjects.get(setPosition.getTarget()).setPosition(setPosition.getPosition());
+                    System.out.println("POSITION" + setPosition.getPosition());
+                }
+                if (command instanceof SetRotation) {
+                    SetRotation setRotation = (SetRotation) command;
+                    gameObjects.get(setRotation.getTarget()).setRotation(setRotation.getRotation());
+                    System.out.println("ROTATION" + setRotation.getRotation());
+                }
             }
         }
+
     }
 }

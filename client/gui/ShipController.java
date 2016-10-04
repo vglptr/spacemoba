@@ -1,5 +1,8 @@
 package client.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.jme3.collision.CollisionResult;
 import com.jme3.collision.CollisionResults;
 import com.jme3.input.KeyInput;
@@ -22,9 +25,9 @@ import com.jme3.system.AppSettings;
 import client.GameClient;
 import client.S;
 import shared.Point;
-import shared.commands.Move;
+import shared.commands.Command;
 import shared.commands.SetPosition;
-import shared.gameobjects.GameObjectConstants;
+import shared.commands.SetRotation;
 
 public class ShipController extends AbstractControl implements ActionListener, AnalogListener {
     private boolean mouseRightDown;
@@ -117,7 +120,13 @@ public class ShipController extends AbstractControl implements ActionListener, A
                 new Point(
                         getSpatial().getLocalTranslation().x, 
                         getSpatial().getLocalTranslation().y));
-        client.send(setPosition);
+        float[] angles = new float[3];
+        getSpatial().getLocalRotation().toAngles(angles);
+        SetRotation setRotation = new SetRotation("ship" + S.clientId, (int)angles[0]);
+        List<Command> commands = new ArrayList<>();
+        commands.add(setPosition);
+        commands.add(setRotation);
+        client.send(commands);
         client.receive();
     }
 
@@ -128,27 +137,27 @@ public class ShipController extends AbstractControl implements ActionListener, A
     }
 
     private void mouseScroll(float tpf) {
-        if (S.inputManager.getCursorPosition().x == 0) {
+        //TODO: dont scroll after leaving the screen in windowed mode
+        //use java.awt.Robot.mouseMove(x,y)
+        if (S.inputManager.getCursorPosition().x < 20) {
             S.cam.setLocation(S.cam.getLocation().subtract(tpf * 10, 0, 0));
         }
 
-        if (S.inputManager.getCursorPosition().x == S.appSettings.getWidth() - 1) {
+        if (S.inputManager.getCursorPosition().x > S.appSettings.getWidth() - 20) {
             S.cam.setLocation(S.cam.getLocation().add(tpf * 10, 0, 0));
         }
 
-        if (S.inputManager.getCursorPosition().y == S.appSettings.getHeight() - 1) {
+        if (S.inputManager.getCursorPosition().y > S.appSettings.getHeight() - 20) {
             S.cam.setLocation(S.cam.getLocation().add(0, tpf * 10, 0));
         }
 
-        if (S.inputManager.getCursorPosition().y == 0) {
+        if (S.inputManager.getCursorPosition().y < 20) {
             S.cam.setLocation(S.cam.getLocation().subtract(0, tpf * 10, 0));
         }
     }
 
     @Override
     protected void controlRender(RenderManager rm, ViewPort vp) {
-        // TODO Auto-generated method stub
-
     }
 
 }

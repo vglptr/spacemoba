@@ -11,8 +11,8 @@ public class GameObjectUtils {
      * @param map GameObjects container
      * @return filtered GameObjects
      */
-    public static Map<String, GameObject> filter(String filterText, int exceptId, Map<String, GameObject> map) {
-        Map<String, GameObject> filteredGameObjects = new HashMap<String, GameObject>();
+    public static Map<String, GameObject> except(String filterText, int exceptId, Map<String, GameObject> map) {
+        Map<String, GameObject> filteredGameObjects = new HashMap<>();
         for (String gameObjectKey : map.keySet()) {
             if ((gameObjectKey.contains(filterText)) && (!gameObjectKey.contains(filterText + exceptId))) {
                 filteredGameObjects.put(gameObjectKey, map.get(gameObjectKey));

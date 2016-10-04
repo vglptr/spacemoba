@@ -3,8 +3,7 @@ package server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,7 +15,7 @@ import shared.gameobjects.GameObject;
 public class GameServer {
     private final Logger LOGGER = Logger.getLogger(GameServer.class.getPackage().getName());
     private FileHandler fileHandler;
-    private Map<String, GameObject> gameObjects = new HashMap<>();
+    private ConcurrentHashMap<String, GameObject> gameObjects = new ConcurrentHashMap<>();
     private ServerSocket serverSocket = null;
 
     public GameServer() {

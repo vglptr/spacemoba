@@ -60,7 +60,7 @@ public class SocketThread extends Thread {
     }
 
     private Map<String, GameObject> filterClientObjects(Map<String, GameObject> gameObjects) {
-        // TODO:filter gameobjects here, make all client specific modification
+        // TODO:except gameobjects here, make all client specific modification
         // to clientobjects here, like fog of war
         //Map<String, GameObject> clientObjects = GameObjectUtils.select("ship", currentClientId, gameObjects);
         Map<String, GameObject> clientObjects = new HashMap<String, GameObject>(gameObjects);

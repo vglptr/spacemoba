@@ -31,7 +31,7 @@ public class GameObjectUtilsTest {
         gameObjects.entrySet().add(missile0);
         gameObjects.entrySet().add(whatshisface0);
         
-        Map<String, GameObject> gameObjectsFiltered = GameObjectUtils.filter("ship", 0, gameObjects);
+        Map<String, GameObject> gameObjectsFiltered = GameObjectUtils.except("ship", 0, gameObjects);
         
         
         Map<String, GameObject> gameObjectsExpected = new HashMap<>();

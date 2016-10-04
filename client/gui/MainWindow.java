@@ -1,14 +1,13 @@
 package client.gui;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.font.BitmapText;
 import com.jme3.light.DirectionalLight;
-import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 
@@ -16,13 +15,11 @@ import client.GameClient;
 import client.S;
 import shared.gameobjects.GameObject;
 import shared.gameobjects.GameObjectUtils;
-import shared.gameobjects.Ship;
 
 public class MainWindow extends SimpleApplication {
     private GameClient client;
-    private ShipModel shipModel0;
-    private ShipModel shipModel1;
     private Map<String, Geometry> geometries;
+    private BitmapText mouseCoordinates;
 
     @Override
     public void simpleInitApp() {
@@ -36,32 +33,56 @@ public class MainWindow extends SimpleApplication {
         S.cam = cam;
         S.cam.setLocation(new Vector3f(0, 0, 50));
         S.cam.lookAt(new Vector3f(0, 0, 0), new Vector3f(0, 1, 0));
-        // cam.setFrustumPerspective(45, cam.getWidth() / cam.getHeight(), 1,
-        // 100);
+        // cam.setFrustumPerspective(45, cam.getWidth() / cam.getHeight(), 1, 100);
         mouseInput.setCursorVisible(true);
         flyCam.setEnabled(false);
 
         Floor floor = new Floor(S.assetManager);
         rootNode.attachChild(floor.getGeometry());
 
-        Material mat = new Material(S.assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setColor("Color", ColorRGBA.Red);
+        initShips();
 
-        shipModel0 = new ShipModel();
-        rootNode.attachChild(shipModel0.getGeometry());
-        geometries.put("ship0", shipModel0.getGeometry());
-
-        shipModel1 = new ShipModel();
-        rootNode.attachChild(shipModel1.getGeometry());
-        geometries.put("ship1", shipModel1.getGeometry());
-
-        ShipController shipController = new ShipController(floor.getGeometry(), rootNode, S.appSettings, client);
-        geometries.get("ship" + S.clientId).addControl(shipController);
+        initShipController(floor);
 
         DirectionalLight sun = new DirectionalLight();
         sun.setDirection(new Vector3f(0.1f, 0.1f, -1.0f).normalizeLocal());
         sun.setColor(ColorRGBA.White);
         rootNode.addLight(sun);
+
+        debugInitAll();
+    }
+
+    private void initShipController(Floor floor) {
+        ShipController shipController = new ShipController(floor.getGeometry(), rootNode, S.appSettings, client);
+        geometries.get("ship" + S.clientId).addControl(shipController);
+    }
+
+    private void initShips() {
+        for(int i = 0; i < 10; i++) {
+            ShipModel shipModel = new ShipModel();
+            rootNode.attachChild(shipModel.getGeometry());
+            geometries.put("ship" + i, shipModel.getGeometry());
+        }
+    }
+
+    private void debugInitAll() {
+        guiFont = assetManager.loadFont("Interface/Fonts/Default.fnt");
+        debugInitMouseCoordinates();
+    }
+
+    private void debugInitMouseCoordinates() {
+        mouseCoordinates = new BitmapText(guiFont, false);
+        mouseCoordinates.setSize(12);
+        mouseCoordinates.setLocalTranslation(0, S.appSettings.getHeight(), 0);
+        guiNode.attachChild(mouseCoordinates);
+    }
+
+    private void debugUpdateAll(){
+        debugUpdateMouseCoordinates();
+    }
+
+    private void debugUpdateMouseCoordinates() {
+        mouseCoordinates.setText("mouse x;y : " + (S.inputManager.getCursorPosition().x + ";" + S.inputManager.getCursorPosition().y));
     }
 
     @Override
@@ -70,19 +91,26 @@ public class MainWindow extends SimpleApplication {
         client.close();
     }
 
-    public void setClient(GameClient client) {
-        this.client = client;
-    }
-
     // control every object from here except the current client
-    //TODO: something is wrong with second ship's control
     @Override
     public void simpleUpdate(float tpf) {
         if (S.gameObjects != null) {
-            for(Map.Entry<String, GameObject> shipEntry : GameObjectUtils.filter("ship", S.clientId, S.gameObjects).entrySet()) {
-                geometries.get(shipEntry.getKey()).setLocalTranslation(                    
-                        shipEntry.getValue().getPosition().x, shipEntry.getValue().getPosition().y, 0f);
-            }
+            updateShips();
         }
+        //debugUpdateAll();
+    }
+
+    private void updateShips() {
+        for(Map.Entry<String, GameObject> shipEntry : GameObjectUtils.except("ship", S.clientId, S.gameObjects).entrySet()) {
+            geometries.get(shipEntry.getKey()).setLocalTranslation(
+                    shipEntry.getValue().getPosition().x, shipEntry.getValue().getPosition().y, 0f);
+            
+            //geometries.get(shipEntry.getKey()).setLocalRotation(new Quaternion().fromAngles(shipEntry.getValue().getRotation(), 0, 0));
+            //System.out.println(shipEntry.getValue().getRotation());
+        }
+    }
+
+    public void setClient(GameClient client) {
+        this.client = client;
     }
 }
