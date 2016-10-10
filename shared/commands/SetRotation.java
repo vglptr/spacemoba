@@ -2,12 +2,14 @@ package shared.commands;
 
 import java.io.Serializable;
 
+import com.jme3.math.Quaternion;
+
 @SuppressWarnings("serial")
 public class SetRotation extends Command implements Serializable {
     private String target;
-    private int rotation;
+    private Quaternion rotation;
 
-    public SetRotation(String target, int rotation) {
+    public SetRotation(String target, Quaternion rotation) {
         this.target = target;
         this.rotation = rotation;
     }
@@ -16,7 +18,7 @@ public class SetRotation extends Command implements Serializable {
         return target;
     }
     
-    public int getRotation() {
+    public Quaternion getRotation() {
         return rotation;
     }
     

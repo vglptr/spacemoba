@@ -2,14 +2,21 @@ package shared.gameobjects;
 
 import java.io.Serializable;
 
+import com.jme3.math.Quaternion;
+
 import shared.Point;
 
 @SuppressWarnings("serial")
 public abstract class GameObject implements Serializable {
     protected Point destination;
     protected Point position;
-    protected float rotation;
+    protected Quaternion rotation;
     protected int id;
+    
+    public GameObject() {
+        position = new Point(0, 0);
+        rotation = new Quaternion();
+    }
 
     public Point getPosition() {
         return position;
@@ -24,23 +31,21 @@ public abstract class GameObject implements Serializable {
     }
 
     /**
-     * Gets angle in degrees. Measured from the positive side of axis x. (East
-     * is 0, North is 90)
+     * Gets rotation in quaternion.
      * 
-     * @return rotation in degrees
+     * @return rotation
      */
-    public float getRotation() {
+    public Quaternion getRotation() {
         return rotation;
     }
 
     /**
-     * Sets angle in degrees. Measured from the positive side of axis x. (East
-     * is 0, North is 90)
+     * Sets angle in quaternion.
      * 
      * @param rotation
-     *            in degrees
+     *           
      */
-    public void setRotation(float rotation) {
+    public void setRotation(Quaternion rotation) {
         this.rotation = rotation;
     }
 

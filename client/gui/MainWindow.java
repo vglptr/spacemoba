@@ -7,7 +7,6 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.font.BitmapText;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 
@@ -97,7 +96,7 @@ public class MainWindow extends SimpleApplication {
         if (S.gameObjects != null) {
             updateShips();
         }
-        //debugUpdateAll();
+        debugUpdateAll();
     }
 
     private void updateShips() {
@@ -105,8 +104,7 @@ public class MainWindow extends SimpleApplication {
             geometries.get(shipEntry.getKey()).setLocalTranslation(
                     shipEntry.getValue().getPosition().x, shipEntry.getValue().getPosition().y, 0f);
             
-            //geometries.get(shipEntry.getKey()).setLocalRotation(new Quaternion().fromAngles(shipEntry.getValue().getRotation(), 0, 0));
-            //System.out.println(shipEntry.getValue().getRotation());
+            geometries.get(shipEntry.getKey()).setLocalRotation(shipEntry.getValue().getRotation());
         }
     }
 

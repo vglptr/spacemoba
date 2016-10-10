@@ -42,7 +42,7 @@ public class GameClient {
         MainWindow mainWindow = new MainWindow();
         AppSettings settings = new AppSettings(true);
         settings.setVSync(true);
-        settings.setFrameRate(60); //game runs at 8000 fps currently
+        //settings.setFrameRate(60); //game runs at 8000 fps currently
         mainWindow.setClient(this);
         mainWindow.setSettings(settings);
         mainWindow.start();

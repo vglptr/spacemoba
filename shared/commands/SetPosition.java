@@ -1,10 +1,8 @@
 package shared.commands;
 
 import java.io.Serializable;
-import java.util.Map;
 
 import shared.Point;
-import shared.gameobjects.GameObject;
 
 @SuppressWarnings("serial")
 public class SetPosition extends Command implements Serializable {

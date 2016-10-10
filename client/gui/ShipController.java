@@ -120,9 +120,9 @@ public class ShipController extends AbstractControl implements ActionListener, A
                 new Point(
                         getSpatial().getLocalTranslation().x, 
                         getSpatial().getLocalTranslation().y));
-        float[] angles = new float[3];
-        getSpatial().getLocalRotation().toAngles(angles);
-        SetRotation setRotation = new SetRotation("ship" + S.clientId, (int)angles[0]);
+        
+        SetRotation setRotation = new SetRotation("ship" + S.clientId, spatial.getLocalRotation());
+        
         List<Command> commands = new ArrayList<>();
         commands.add(setPosition);
         commands.add(setRotation);
