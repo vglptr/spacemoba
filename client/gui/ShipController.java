@@ -41,6 +41,7 @@ public class ShipController extends AbstractControl implements ActionListener, A
     private Ray ray = new Ray(Vector3f.ZERO, Vector3f.ZERO);
     private Vector3f up = new Vector3f(0.0f, 1.0f, 0.0f);
     private GameClient client;
+    private List<Command> commands = new ArrayList<>();
 
     public ShipController(Geometry floor, Node rootNode, AppSettings settings, GameClient client) {
         this.client = client;
@@ -122,8 +123,7 @@ public class ShipController extends AbstractControl implements ActionListener, A
                         getSpatial().getLocalTranslation().y));
         
         SetRotation setRotation = new SetRotation("ship" + S.clientId, spatial.getLocalRotation());
-        
-        List<Command> commands = new ArrayList<>();
+        commands.clear();
         commands.add(setPosition);
         commands.add(setRotation);
         client.send(commands);
