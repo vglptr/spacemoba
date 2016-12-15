@@ -1,1 +1,9 @@
 *.directory
+.classpath
+.project
+.settings
+*.iml
+*.dll
+target
+bin
+dist
