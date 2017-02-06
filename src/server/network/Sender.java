@@ -5,6 +5,7 @@ import java.io.ObjectOutputStream;
 import java.util.Map;
 
 import shared.commands.Command;
+import shared.commands.Rpc;
 import shared.gameobjects.GameObject;
 
 public class Sender {
@@ -26,9 +27,9 @@ public class Sender {
         }
     }
     
-    public void send(Command command) {
+    public void send(Rpc rpc) {
         try {
-            out.writeUnshared(command);
+            out.writeUnshared(rpc);
             out.reset();
         } catch (IOException e) {
             e.printStackTrace();

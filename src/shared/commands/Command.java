@@ -1,3 +1,9 @@
 package shared.commands;
 
-public abstract class Command { }
+import java.util.Map;
+
+import shared.gameobjects.GameObject;
+
+public interface Command {
+    void execute(Map<String, GameObject> gameObjects);
+}

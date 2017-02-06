@@ -2,14 +2,17 @@ package shared.commands;
 
 import shared.gameobjects.GameObject;
 
-public class BasicAttack extends Command {
+import java.util.Map;
+
+public class BasicAttack implements Command {
     private GameObject target;
     
     public BasicAttack(GameObject target) {
         this.target = target;
     }
 
-    public GameObject getTarget() {
-        return target;
+    @Override
+    public void execute(Map<String, GameObject> gameObjects) {
+
     }
 }

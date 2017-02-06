@@ -31,19 +31,9 @@ public class Receiver {
         } catch (IOException e) {
             socketThread.clientConnected = false;
         }
-        
-        if (object instanceof List<?>) {
-            for (Command command : (List<Command>) object) {
-                if (command instanceof SetPosition) {
-                    SetPosition setPosition = (SetPosition) command;
-                    gameObjects.get(setPosition.getTarget()).setPosition(setPosition.getPosition());
-                }
-                if (command instanceof SetRotation) {
-                    SetRotation setRotation = (SetRotation) command;
-                    gameObjects.get(setRotation.getTarget()).setRotation(setRotation.getRotation());
-                    //System.out.println("ROTATION " + setRotation.getRotation());
-                }
-            }
+
+        for (Command command : (List<Command>) object) {
+            command.execute(gameObjects);
         }
 
     }

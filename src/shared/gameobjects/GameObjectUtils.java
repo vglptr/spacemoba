@@ -22,7 +22,7 @@ public class GameObjectUtils {
     }
     
     public static Map<String, GameObject> select(String filterText, int clientId, Map<String, GameObject> map) {
-        Map<String, GameObject> filteredGameObjects = new HashMap<String, GameObject>();
+        Map<String, GameObject> filteredGameObjects = new HashMap<>();
         for (String gameObjectKey : map.keySet()) {
             if (gameObjectKey.contains(filterText + clientId)) {
                 filteredGameObjects.put(gameObjectKey, map.get(gameObjectKey));
